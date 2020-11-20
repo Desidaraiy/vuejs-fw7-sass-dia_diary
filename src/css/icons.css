@@ -59,3 +59,11 @@
   font-feature-settings: "liga";
   text-align: center;
 }
+
+@font-face {
+  font-family: 'GengRimba';
+  src: url('../fonts/GengRimba.eot');
+  src: local('☺'), url('../fonts/GengRimba.woff') format('woff'), url('../fonts/GengRimba.ttf') format('truetype'), url('../fonts/GengRimba.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

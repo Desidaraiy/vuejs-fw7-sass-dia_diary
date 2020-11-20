@@ -43,7 +43,11 @@
  -->
     <f7-login-screen class="demo-login-screen" :opened="loginScreenOpened" @loginscreen:closed="loginScreenOpened = false">
       <f7-page login-screen>
-        <f7-login-screen-title>Календарь Dia</f7-login-screen-title>
+        <f7-login-screen-title class="no-margin">
+          <span class="diafonted pink dialogo">dia</span>
+          <br/>
+          <p class="underlogo no-margin">Календарь</p>
+        </f7-login-screen-title>
         <f7-list form>
           <f7-list-input
             label="Имя"
@@ -60,14 +64,14 @@
             @input="clong = $event.target.value"
           ></f7-list-input>
           <f7-list-input
-            label="Длительность кд"
+            label="Длительность менструации"
             type="number"
             placeholder="в днях"
             :value="dlong"
             @input="dlong = $event.target.value"
           ></f7-list-input>
           <f7-list-input
-            label="Дата начала последних кд"
+            label="Дата начала последней менструации"
             type="date"
             placeholder="Дата"
             :value="dlast"
@@ -82,7 +86,12 @@
           ></f7-list-input>
         </f7-list>
         <f7-list>
-          <f7-list-button @click="signIn">Зарегистрироваться</f7-list-button>
+          <f7-row>
+            <f7-col width="33"></f7-col>
+            <f7-col width="33"><f7-button col-50 fill round large @click="signIn">Начать</f7-button></f7-col>
+            <f7-col width="33"></f7-col>
+          </f7-row>
+          
         </f7-list>
       </f7-page>
     </f7-login-screen>
