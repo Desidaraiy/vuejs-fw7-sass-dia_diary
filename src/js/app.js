@@ -71,16 +71,15 @@ const openDbStart = () =>{
 
     console.log('с плагином не срослось');
 
-    // dataObj = {
-    //   clong: 29,
-    //   dlong: 4,
-    //   dlast: '2020-11-15',
-    //   age: 22,
-    //   name: 'Vikus'
-    // };
+    dataObj = {
+      clong: 34,
+      dlong: 4,
+      dlast: '2020-11-15',
+      age: 19,
+      name: 'Вика'
+    };
 
     init(dataObj);
-
  
   } 
 
@@ -98,10 +97,6 @@ const init = (dataObj) => {
       db: db
     },
     mounted(){
-
-      console.log(dataObj);
-
-      // this.$store.commit('setClientData', dataObj);
 
       this.$store.state.clientData = dataObj;
 

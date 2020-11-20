@@ -22,9 +22,9 @@
         <span v-if="daysExists" class="no-margin">Осталось <span class="pink">{{daysRemaining}} дней</span></span>
         <span v-else>Критические дни прошли</span>
         <br>
-        <span class="pink">{{nextMenst}}</span> След. Менструация
+        <span class="pink">{{nextOvulation}}</span> овуляция
         <br>
-        <span class="pink">{{nextOvulation}}</span> След. Овуляция
+        <span class="pink">{{nextMenst}}</span>  следующая менструация
       </div>
       <div class="col-30"></div>
     </f7-block>
@@ -115,7 +115,6 @@
       const nextOvulation = 0;
       const daysExists = false;
       const clientExists = false;
-
       const dataObject = this.$store.getters['getClientData'];
 
       return{
@@ -169,8 +168,6 @@
       initialize(){
 
         const self = this;
-        console.log(self.dataObject, 'инициализация');
-
         if(Object.keys(this.dataObject).length == 0){
           this.loginScreenOpened = true;
         }else{
@@ -210,11 +207,11 @@
 
         // выводим даты следующей овуляции и менструации
 
-        let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)+1), 'days').format("D MMM");
+        let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)+1), 'days').format("D MMMM");
 
         this.nextOvulation = ovulationDay;
 
-        let menstrDay = moment(redDaysStart).add((clong+1), 'days').format("D MMM");
+        let menstrDay = moment(redDaysStart).add((clong+1), 'days').format("D MMMM");
 
         this.nextMenst = menstrDay;
 

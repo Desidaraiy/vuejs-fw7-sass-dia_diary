@@ -77,6 +77,8 @@ var cordovaApp = {
         currentView.router.back();
         e.preventDefault();
         return false;
+      }else{
+        navigator.app.exitApp();
       }
 
       if ($('.panel.panel-in').length) {

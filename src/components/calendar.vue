@@ -1,5 +1,11 @@
 <template>
+  <div class="block block-strong no-padding no-margin no-hairline-top">
     <div id="calendarius"></div>
+    <div id="calendar-events" class="list no-margin no-hairlines no-ios-left-edge">
+      <ul></ul>
+    </div>
+  </div>
+
 </template>
 <script>
   import { f7Navbar, f7Page, f7NavTitle } from 'framework7-vue';
@@ -15,9 +21,10 @@
     data: function() {
       const today = new Date();
       const dataObject = this.$store.getters['getClientData'];
+
       return {
         today,
-        dataObject
+        dataObject,
       }
     },
     mounted: function() {
@@ -26,6 +33,7 @@
 
     },
     methods: {
+
       createCalendar(){
         const self = this;
         const app = self.$f7;
@@ -48,14 +56,20 @@
           }else{
             var redDaysStart = moment(dlast).add(i-(onecycle+1), 'days').format("YYYY-MM-DD");
           }
+
           var redDaysEnd = moment(redDaysStart).add(dlong, 'days').format("YYYY-MM-DD");
+
           var ovulationDay = moment(redDaysStart).add(Math.ceil(onecycle/2), 'days').format("YYYY-MM-DD");
+
           var highDanderStart = moment(ovulationDay).subtract(2, 'days').format("YYYY-MM-DD");
           var highDanderEnd = moment(ovulationDay).add(1, 'days').format("YYYY-MM-DD");
+
           var middleDangerOneStart = moment(highDanderStart).subtract(4, 'days').format("YYYY-MM-DD");
           var middleDangerOneEnd = moment(highDanderStart).format("YYYY-MM-DD");
+
           var middleDangerTwoStart = moment(highDanderEnd).add(12, 'hours').format("YYYY-MM-DD");
           var middleDangerTwoEnd = moment(highDanderEnd).add(2, 'days').format("YYYY-MM-DD");
+
           var a = {
             cssClass: 'middle-danger', 
             range: {
@@ -145,7 +159,17 @@
               $('.navbar-calendar-title').text(`${monthNames[calendar.currentMonth]}, ${calendar.currentYear}`);
             },
             change(calendar) {
-              // 
+
+              if($('div.calendar-day-selected').hasClass('red-days')){
+                self.$el.querySelector('.list ul').innerHTML = '<li class="item-content"><div class="item-inner"><div class="item-title text-color-gray">Менструация</div></div></li>';
+              }else if($('div.calendar-day-selected').hasClass('middle-danger')){
+                self.$el.querySelector('.list ul').innerHTML = '<li class="item-content"><div class="item-inner"><div class="item-title text-color-gray">Средняя вероятность беременности</div></div></li>';
+              }else if($('div.calendar-day-selected').hasClass('high-danger')){
+                self.$el.querySelector('.list ul').innerHTML = '<li class="item-content"><div class="item-inner"><div class="item-title text-color-gray">Высокая вероятность беременности</div></div></li>';
+              }else{
+                self.$el.querySelector('.list ul').innerHTML = '<li class="item-content"><div class="item-inner"><div class="item-title text-color-gray">Низкая вероятность беременности</div></div></li>';
+              }
+
             },
           },
         });
