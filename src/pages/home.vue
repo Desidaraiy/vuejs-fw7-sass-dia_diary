@@ -6,8 +6,8 @@
       <f7-icon ios="f7:plus" aurora="f7:plus" md="material:add"></f7-icon>
       <f7-icon ios="f7:xmark" aurora="f7:xmark" md="material:close"></f7-icon>
       <f7-fab-buttons position="top">
-        <!-- <f7-fab-button label="Добавить симптомы">1</f7-fab-button> -->
-        <f7-fab-button label="Редактировать цикл" @click="resetData">2</f7-fab-button>
+        <!-- <f7-fab-button label="Добавить симптомы">2</f7-fab-button> -->
+        <f7-fab-button label="Редактировать цикл" @click="resetData">1</f7-fab-button>
       </f7-fab-buttons>
     </f7-fab>
 
@@ -24,7 +24,7 @@
         <br>
         <span class="pink">{{nextOvulation}}</span> овуляция
         <br>
-        <span class="pink">{{nextMenst}}</span>  следующая менструация
+        <span class="pink">{{nextMenst}}</span> следующая менструация
       </div>
       <div class="col-30"></div>
     </f7-block>
@@ -95,7 +95,6 @@
         </f7-list>
       </f7-page>
     </f7-login-screen>
-
   </f7-page>
 </template>
 <script>
@@ -151,10 +150,9 @@
           self.dlong = '';
           self.dlast = '';
           self.age = '';
-
           self.clientExists = false;
           self.loginScreenOpened = true;
-          
+
         });
       },
       signIn(){
@@ -176,19 +174,14 @@
             age: row.age,
             name: row.name
           };
-          console.log('1');
           self.$store.state.clientData = dataObj;
-          console.log('2');
           self.dataObject = self.$store.getters['getClientData'];
-          console.log('3');
           self.initialize();
 
         });  
       },
 
       initialize(){
-
-        const self = this;
         if(Object.keys(this.dataObject).length == 0){
           this.loginScreenOpened = true;
         }else{
@@ -204,6 +197,16 @@
         const self = this;
         const app = self.$f7;
         const $ = self.$$;
+
+        let notify = app.notification.create({
+          icon: '<img src="../static/icons/192x192.png" />',
+          title: 'Dia',
+          subtitle: 'Привет, '+this.dataObject.name+'!',
+          text: 'Нажми, чтобы закрыть',
+          closeOnClick: true,
+        });
+
+        notify.open();
 
         // посчитаем, сколько дней осталось до конца месячных, и остались ли они вообще
 

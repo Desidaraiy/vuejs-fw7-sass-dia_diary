@@ -4,7 +4,7 @@
 
     <f7-block inset strong class="no-margin clientset">
       <h2>{{dataObject.name}}</h2>
-      <!-- <p>123&nbsp;<f7-icon ios="f7:gear" md="material:settings"></f7-icon></p> -->
+      <p><a href="/myacc/">Мой аккаунт</a>&nbsp;<f7-icon ios="f7:gear" md="material:settings"></f7-icon></p>
     </f7-block>
 
     <f7-list class="no-margin">
@@ -15,7 +15,7 @@
       <!-- <f7-list-item title="Оценить приложение" link="#"></f7-list-item> -->
       <!-- <f7-list-item title="Поделиться" link="#"></f7-list-item> -->
       <!-- <f7-list-item title="Связь с разработчиком" link="#"></f7-list-item> -->
-      <f7-list-item title="Выйти из аккаунта" link="/form/"></f7-list-item>
+      <f7-list-item title="Выйти из аккаунта" link=""></f7-list-item>
     </f7-list>
 
   </f7-page>

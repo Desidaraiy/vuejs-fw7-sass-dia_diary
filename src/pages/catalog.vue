@@ -6,15 +6,15 @@
       <f7-list simple-list>
         <f7-list-item>
           <span>Начало месячных</span>
-          <f7-toggle checked></f7-toggle>
+          <f7-toggle></f7-toggle>
         </f7-list-item>
         <f7-list-item>
           <span>Окончание месячных</span>
-          <f7-toggle checked></f7-toggle>
+          <f7-toggle></f7-toggle>
         </f7-list-item>
         <f7-list-item>
           <span>Овуляция</span>
-          <f7-toggle checked></f7-toggle>
+          <f7-toggle></f7-toggle>
         </f7-list-item>
       </f7-list>
       <f7-list>

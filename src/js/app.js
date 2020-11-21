@@ -71,13 +71,13 @@ const openDbStart = () =>{
 
     console.log('с плагином не срослось');
 
-    // dataObj = {
-    //   clong: 34,
-    //   dlong: 4,
-    //   dlast: '2020-11-15',
-    //   age: 19,
-    //   name: 'Вика'
-    // };
+    dataObj = {
+      clong: 34,
+      dlong: 4,
+      dlast: '2020-11-15',
+      age: 19,
+      name: 'Вика'
+    };
 
     init(dataObj);
  
