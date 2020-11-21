@@ -6,8 +6,8 @@
       <f7-icon ios="f7:plus" aurora="f7:plus" md="material:add"></f7-icon>
       <f7-icon ios="f7:xmark" aurora="f7:xmark" md="material:close"></f7-icon>
       <f7-fab-buttons position="top">
-        <f7-fab-button label="Добавить симптомы">1</f7-fab-button>
-        <f7-fab-button label="Редактировать цикл">2</f7-fab-button>
+        <!-- <f7-fab-button label="Добавить симптомы">1</f7-fab-button> -->
+        <f7-fab-button label="Редактировать цикл" @click="resetData">2</f7-fab-button>
       </f7-fab-buttons>
     </f7-fab>
 
@@ -59,14 +59,14 @@
           <f7-list-input
             label="Длительность цикла"
             type="number"
-            placeholder="в днях"
+            placeholder="обычно 28-35 дней"
             :value="clong"
             @input="clong = $event.target.value"
           ></f7-list-input>
           <f7-list-input
             label="Длительность менструации"
             type="number"
-            placeholder="в днях"
+            placeholder="обычно 4-7 дней"
             :value="dlong"
             @input="dlong = $event.target.value"
           ></f7-list-input>
@@ -137,6 +137,24 @@
       this.initialize();
     }, 
     methods: {
+      resetData(){
+        const self = this;
+        const app = self.$f7;
+        const $ = self.$$;
+
+        app.dialog.confirm('Вы будете перенаправлены на страницу регистрации.', function(){
+          self.db.executeSql('DROP TABLE IF EXISTS DiaryTable');
+          self.db.executeSql('CREATE TABLE IF NOT EXISTS DiaryTable (id integer primary key, clong integer, dlong integer, dlast text, age integer, name text, email text, pincode text)');
+
+          self.name = '';
+          self.clong = '';
+          self.dlong = '';
+          self.dlast = '';
+          self.age = '';
+
+          self.loginScreenOpened = true;
+        });
+      },
       signIn(){
         const self = this;
         const app = self.$f7;
@@ -156,10 +174,11 @@
             age: row.age,
             name: row.name
           };
-
+          console.log('1');
           self.$store.state.clientData = dataObj;
+          console.log('2');
           self.dataObject = self.$store.getters['getClientData'];
-          console.log(self.dataObject, '123');
+          console.log('3');
           self.initialize();
 
         });  
@@ -187,31 +206,49 @@
         // посчитаем, сколько дней осталось до конца месячных, и остались ли они вообще
 
         let dlast = this.dataObject.dlast;
+
+        let dlastMonth = moment(dlast).format("MM");
+        let currentMonth = moment().format("MM");
+
+        let onecycle = parseInt(this.dataObject.clong);
+
+        if(dlastMonth < currentMonth){
+          let nextMonthDays = moment(dlast).add(onecycle, 'days').format("YYYY-MM-DD");
+          self.$store.state.clientData.dlast = nextMonthDays;
+          self.db.executeSql('UPDATE DiaryTable SET dlast = (?) WHERE id = (?)', [nextMonthDays, 1]);
+          self.dataObject = self.$store.getters['getClientData'];
+          dlast = this.dataObject.dlast;
+        }
+
         let dlong = this.dataObject.dlong;
         let clong = this.dataObject.clong;
         let age = this.dataObject.age;
 
         let day = moment().format("YYYY-MM-DD");
 
-        let redDaysStart = moment(dlast).subtract(1,'days').format("YYYY-MM-DD");
-        let redDaysEnd = moment(redDaysStart).add(dlong, 'days').format("YYYY-MM-DD");
+        let redDaysStart = moment(dlast).format("YYYY-MM-DD");
+        let redDaysEnd = moment(redDaysStart).add(dlong-1, 'days').format("YYYY-MM-DD");
 
         let remaining = moment(redDaysEnd, "YYYY-MM-DD").diff(moment(day, "YYYY-MM-DD"), 'days');
 
         remaining++;
 
-        if(remaining > 0){
+        if(remaining > dlong){
+          //
+        }else if(remaining > 0){
           this.daysExists = true;
           this.daysRemaining = remaining;
+        }else{
+          //
         }
 
         // выводим даты следующей овуляции и менструации
 
-        let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)+1), 'days').format("D MMMM");
+        let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)), 'days').format("D MMMM");
 
         this.nextOvulation = ovulationDay;
 
-        let menstrDay = moment(redDaysStart).add((clong+1), 'days').format("D MMMM");
+        let menstrDay = moment(redDaysStart).add(clong, 'days').format("D MMMM");
 
         this.nextMenst = menstrDay;
 
