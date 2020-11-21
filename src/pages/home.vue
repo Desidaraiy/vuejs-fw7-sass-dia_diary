@@ -152,7 +152,9 @@
           self.dlast = '';
           self.age = '';
 
+          self.clientExists = false;
           self.loginScreenOpened = true;
+          
         });
       },
       signIn(){
