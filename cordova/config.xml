@@ -94,4 +94,6 @@
     <plugin name="cordova-sqlite-evcore-extbuild-free" spec="~0.12.1" />
     <plugin name="cordova-custom-config" spec="~5.1.0" />
     <plugin name="cordova-plugin-navigationbar-color" spec="~0.1.0" />
+    <plugin name="cordova-plugin-wkwebview-engine" spec="~1.2.2-dev" />
+    <plugin name="cordova-plugin-device" spec="~2.0.3" />
 </widget>

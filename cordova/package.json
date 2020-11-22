@@ -15,7 +15,10 @@
   "dependencies": {
     "cordova-android": "^8.1.0",
     "cordova-custom-config": "^5.1.0",
+    "cordova-plugin-badge": "^0.8.8",
+    "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-keyboard": "^1.2.0",
+    "cordova-plugin-local-notification": "git+https://github.com/katzer/cordova-plugin-local-notifications.git",
     "cordova-plugin-navigationbar-color": "^0.1.0",
     "cordova-plugin-splashscreen": "^6.0.0",
     "cordova-plugin-statusbar": "^2.4.3",
@@ -31,11 +34,13 @@
       "cordova-sqlite-evcore-extbuild-free": {},
       "cordova-custom-config": {},
       "cordova-plugin-navigationbar-color": {},
-      "cordova-plugin-wkwebview-engine": {}
+      "cordova-plugin-wkwebview-engine": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-local-notification": {}
     },
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ]
   },
   "devDependencies": {
