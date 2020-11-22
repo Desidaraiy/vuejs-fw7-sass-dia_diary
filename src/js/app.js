@@ -26,6 +26,8 @@ Framework7.use(Framework7Vue);
 
 var dataObj = {};
 
+var notifObj = {};
+
 var db = null;
 // Init App
 const openDbStart = () =>{
@@ -36,8 +38,46 @@ const openDbStart = () =>{
       name: 'diadiary.db',
       location: 'default'
     });
+
+
     
     db.executeSql('CREATE TABLE IF NOT EXISTS DiaryTable (id integer primary key, clong integer, dlong integer, dlast text, age integer, name text, email text, pincode text)');
+
+    db.executeSql('CREATE TABLE IF NOT EXISTS DiaryNotify (id integer primary key, notifstart text, notifend text, notifovul text, notifcontr text)');
+
+    db.executeSql('SELECT count(*) AS notifcount FROM DiaryNotify WHERE id = (?)', [1], function(result){
+        for (var i = 0; i < result.rows.length; i++) {
+            var row = result.rows.item(i);
+        }
+
+        if(row.notifcount > 0){
+
+          db.executeSql('SELECT * FROM DiaryNotify WHERE id = (?)', [1], function(result){
+            for (var i = 0; i < result.rows.length; i++) {
+                var row = result.rows.item(i);
+            }
+
+            notifObj = {
+              notifStart: row.notifstart,
+              notifEnd: row.notifend,
+              notifOvul: row.notifovul,
+              notifContr: row.notifcontr,
+            };
+          });
+
+        }else{
+          db.executeSql('INSERT INTO DiaryNotify (notifstart, notifend, notifovul, notifcontr) VALUES (?,?,?,?)', ['false','false','false','false'], function(){
+            console.log('notifications table ok');
+          });
+
+          notifObj = {
+            notifStart: 'false',
+            notifEnd: 'false',
+            notifOvul: 'false',
+            notifContr: 'false',
+          }; 
+        }
+    });
 
     db.executeSql('SELECT count(*) AS clientCount FROM DiaryTable WHERE id = (?)', [1], function(result){
         for (var i = 0; i < result.rows.length; i++) {
@@ -58,11 +98,11 @@ const openDbStart = () =>{
               name: row.name,
             };
 
-            init(dataObj);
+            init(dataObj, notifObj);
           });   
         }else{
 
-          init(dataObj);
+          init(dataObj, notifObj);
 
         }
     });
@@ -79,13 +119,20 @@ const openDbStart = () =>{
       name: 'Вика'
     };
 
-    init(dataObj);
+    notifObj = {
+      notifStart: 'false',
+      notifEnd: 'false',
+      notifOvul: 'false',
+      notifContr: 'false',
+    }; 
+
+    init(dataObj, notifObj);
  
   } 
 
 }
 
-const init = (dataObj) => {
+const init = (dataObj, notifObj) => {
   new Vue({
     el: '#app',
     render: (h) => h(App),
@@ -98,6 +145,7 @@ const init = (dataObj) => {
     },
     mounted(){
       this.$store.state.clientData = dataObj;
+      this.$store.state.notifData = notifObj;
     }
   });
 

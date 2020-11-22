@@ -59,14 +59,14 @@
           <f7-list-input
             label="Длительность цикла"
             type="number"
-            placeholder="обычно 28-35 дней"
+            placeholder="В среднем 25-35 дней"
             :value="clong"
             @input="clong = $event.target.value"
           ></f7-list-input>
           <f7-list-input
             label="Длительность менструации"
             type="number"
-            placeholder="обычно 4-7 дней"
+            placeholder="В среднем 4-7 дней"
             :value="dlong"
             @input="dlong = $event.target.value"
           ></f7-list-input>
@@ -199,11 +199,10 @@
         const $ = self.$$;
 
         let notify = app.notification.create({
-          icon: '<img src="../static/icons/192x192.png" />',
-          title: 'Dia',
+          title: '<span class="diafonted pink lower-notify">dia</span>',
           subtitle: 'Привет, '+this.dataObject.name+'!',
-          text: 'Нажми, чтобы закрыть',
           closeOnClick: true,
+          closeTimeout: 3500,
         });
 
         notify.open();

@@ -8,20 +8,27 @@ export default new Vuex.Store({
   	
   	clientData: {
     },
+    notifData: {
+    }
   	// settings
-  	// notifications
+
   },
   getters: {
   	getClientData: state => {
   		return state.clientData;
   	},
+    getNotifData: state => {
+      return state.notifData;
+    }
 	// getsettings
-  	// getnotifications
   },
   mutations: {
-  	setClientData: (state, {payload}) => {
+  	setClientData: (state, payload) => {
   		state.clientData = payload;
       return state.clientData;
   	},
+    setNotifData: (state, payload) => {
+      state.notifData = payload;
+    }
   },
 })

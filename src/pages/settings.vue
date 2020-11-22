@@ -23,6 +23,7 @@
 <script>
   import { f7Navbar, f7Page, f7NavTitle } from 'framework7-vue';
   export default{
+    name: 'settingsview',
     data: function(){
       const dataObject = this.$store.getters['getClientData'];
       return{
