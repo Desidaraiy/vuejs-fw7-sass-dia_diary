@@ -39,8 +39,16 @@ const openDbStart = () =>{
       location: 'default'
     });
 
+    cordova.plugins.notification.local.hasPermission(function (granted) {
+      if(granted == false){
+        cordova.plugins.notification.local.requestPermission(function (granted) { 
+          console.log('готово');
+        });
+      }else{
+        console.log('не требуется');
+      }
+    });
 
-    
     db.executeSql('CREATE TABLE IF NOT EXISTS DiaryTable (id integer primary key, clong integer, dlong integer, dlast text, age integer, name text, email text, pincode text)');
 
     db.executeSql('CREATE TABLE IF NOT EXISTS DiaryNotify (id integer primary key, notifstart integer, notifend integer, notifovul integer, notifcontr integer)');
