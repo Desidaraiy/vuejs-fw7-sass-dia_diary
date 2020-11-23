@@ -44,52 +44,53 @@
       }
     },
     mounted: function(){
-      this.init();
+
+      setTimeout(this.init, 500);
+      // this.init();
     },
     methods: {
       init: function(){
 
-        console.log(this.notifObject, 'нотифобжект');
+        this.notifObject = this.$store.getters['getNotifData'];
 
-        console.log(this.notifStart, Boolean(this.notifObject.notifStart), '123');
-        console.log(this.notifStart, this.notifObject.notifStart, '321');
 
-        if(this.notifStart != Boolean(this.notifObject.notifStart)){
-          this.notifStart = Boolean(this.notifObject.notifStart);
-          console.log('1');
+        if(this.notifStart != !!this.notifObject.notifStart){
+          this.notifStart = !!this.notifObject.notifStart;
         }
-        if(this.notifEnd != Boolean(this.notifObject.notifEnd)){
-          this.notifEnd = Boolean(this.notifObject.notifEnd);
-          console.log('2');
+        if(this.notifEnd != !!this.notifObject.notifEnd){
+          this.notifEnd = this.notifObject.notifEnd;
         }
-        if(this.notifOvul != Boolean(this.notifObject.notifOvul)){
-          this.notifOvul = Boolean(this.notifObject.notifOvul);
-          console.log('3');
+        if(this.notifOvul != !!this.notifObject.notifOvul){
+          this.notifOvul = this.notifObject.notifOvul;
         }
-        if(this.notifContr != Boolean(this.notifObject.notifContr)){
-          this.notifContr = Boolean(this.notifObject.notifContr);
-          console.log('4');
+        if(this.notifContr != !!this.notifObject.notifContr){
+          this.notifContr = this.notifObject.notifContr;
         }
 
       },
 
     },
     watch: {
-      // notifStart: function(newN, oldN){
-      //   this.db.executeSql('UPDATE DiaryNotify SET notifstart = (?) WHERE notifstart = (?)', [String(newN), String(oldN)], function(){
-      //     console.log('обновлено');
-      //     console.log(String(newN), String(oldN));
-      //   });
-      // },
-      // notifEnd: function(newN, oldN){
-      //   this.db.executeSql('UPDATE DiaryNotify SET notifend = (?) WHERE notifend = (?)', [String(newN), String(oldN)]);
-      // },
-      // notifOvul: function(newN, oldN){
-      //   this.db.executeSql('UPDATE DiaryNotify SET notifovul = (?) WHERE notifovul = (?)', [String(newN), String(oldN)]);
-      // },
-      // notifContr: function(newN, oldN){
-      //   this.db.executeSql('UPDATE DiaryNotify SET notifcontr = (?) WHERE notifcontr = (?)', [String(newN), String(oldN)]);
-      // },
+      notifStart: function(newN, oldN){
+        this.db.executeSql('UPDATE DiaryNotify SET notifstart = (?) WHERE notifstart = (?)', [Number(newN), Number(oldN)], function(){
+
+        });
+      },
+      notifEnd: function(newN, oldN){
+        this.db.executeSql('UPDATE DiaryNotify SET notifend = (?) WHERE notifend = (?)', [Number(newN), Number(oldN)], function(){
+
+        });
+      },
+      notifOvul: function(newN, oldN){
+        this.db.executeSql('UPDATE DiaryNotify SET notifovul = (?) WHERE notifovul = (?)', [Number(newN), Number(oldN)], function(){
+
+        });
+      },
+      notifContr: function(newN, oldN){
+        this.db.executeSql('UPDATE DiaryNotify SET notifcontr = (?) WHERE notifcontr = (?)', [Number(newN), Number(oldN)], function(){
+
+        });
+      },
     }
   };
 </script>

@@ -43,7 +43,7 @@ const openDbStart = () =>{
     
     db.executeSql('CREATE TABLE IF NOT EXISTS DiaryTable (id integer primary key, clong integer, dlong integer, dlast text, age integer, name text, email text, pincode text)');
 
-    db.executeSql('CREATE TABLE IF NOT EXISTS DiaryNotify (id integer primary key, notifstart text, notifend text, notifovul text, notifcontr text)');
+    db.executeSql('CREATE TABLE IF NOT EXISTS DiaryNotify (id integer primary key, notifstart integer, notifend integer, notifovul integer, notifcontr integer)');
 
     db.executeSql('SELECT count(*) AS notifcount FROM DiaryNotify WHERE id = (?)', [1], function(result){
         for (var i = 0; i < result.rows.length; i++) {
@@ -66,15 +66,15 @@ const openDbStart = () =>{
           });
 
         }else{
-          db.executeSql('INSERT INTO DiaryNotify (notifstart, notifend, notifovul, notifcontr) VALUES (?,?,?,?)', ['false','false','false','false'], function(){
+          db.executeSql('INSERT INTO DiaryNotify (notifstart, notifend, notifovul, notifcontr) VALUES (?,?,?,?)', [0,0,0,0], function(){
             console.log('notifications table ok');
           });
 
           notifObj = {
-            notifStart: 'false',
-            notifEnd: 'false',
-            notifOvul: 'false',
-            notifContr: 'false',
+            notifStart: 0,
+            notifEnd: 0,
+            notifOvul: 0,
+            notifContr: 0,
           }; 
         }
     });
