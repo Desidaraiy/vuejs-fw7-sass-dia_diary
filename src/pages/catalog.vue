@@ -78,27 +78,34 @@
         let day = moment().format("YYYY-MM-DD");
 
         let redDaysStart = moment(dlast).format("YYYY-MM-DD");
+
         let redDaysEnd = moment(redDaysStart).add(dlong-1, 'days').format("YYYY-MM-DD");
 
         let remaining = moment(redDaysStart, "YYYY-MM-DD").diff(moment(day, "YYYY-MM-DD"), 'days');
 
-        remaining++;
+        console.log('1');
+
+        if(Math.sign(parseInt(remaining)) == -1){
+          console.log('2', remaining);
+          remaining = parseInt(remaining)+clong;
+          console.log('2.1', remaining);
+          remaining = parseInt(remaining)-dlong;
+          console.log('2.2', remaining);
+        }
+
+        console.log('3');
 
         let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)), 'days').format("D MMMM");
+
+        console.log('4');
 
         // посчитаем дни до менструации
         // посчитаем дни до конца менструации
         // посчитаем дни до овуляции
 
-
-
         switch(string){
           case 'start':
             if(newN == true){
-              var now = new Date().getTime();
-              var _5_sec_from_now = new Date(now + 5*1000);
-              var _9_am = new Date(now + 60*1000*60*9);
-              // var dateA = moment().startOf('day').add(9, 'hours');
               cordova.plugins.notification.local.schedule({
                 id: 1,
                 title: 'Привет!',
@@ -106,15 +113,13 @@
                 icon: 'file://static/icons/256x256.png',
                 smallIcon: 'res://ic_launcher',
                 foreground: true,
-
                 trigger: { 
-                  in: , 
+                  in: remaining, 
                   every: clong, 
                   unit: 'day',
                 }
-
               }, function(){
-                console.log('уведомление установлено');
+                console.log('уведомление установлено', remaining, clong);
               }, function(){
                 console.log('ошибка');
               });
