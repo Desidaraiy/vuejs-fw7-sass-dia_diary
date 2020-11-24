@@ -29,7 +29,9 @@
     data: function(){
       const dataObject = this.$store.getters['getClientData'];
       const settingsObject = this.$store.getters['getSettingsData'];
+      const db = this.$root.db;
       return{
+        db,
         dataObject,
         settingsObject,
       }
@@ -62,7 +64,7 @@
     watch: {
       darkTheme: function(sup, oldN){
         const self = this;
-        this.db.executeSql('UPDATE DiarySettings SET darktheme = (?) WHERE darktheme = (?)', [Number(newN), Number(oldN)], function(){
+        this.db.executeSql('UPDATE DiarySettings SET darktheme = (?) WHERE darktheme = (?)', [Number(sup), Number(oldN)], function(){
           self.enableDisable(sup);
         });
       }
