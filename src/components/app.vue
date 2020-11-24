@@ -1,5 +1,5 @@
 <template>
-  <f7-app :params="f7params">
+  <f7-app :params="f7params" :theme-dark="darkTheme">
 
   <!-- Views/Tabs container -->
   <f7-views tabs class="safe-areas">
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+
   import { Device }  from 'framework7/framework7-lite.esm.bundle.js';
   import cordovaApp from '../js/cordova-app.js';
   import routes from '../js/routes.js';
@@ -33,11 +34,11 @@
     data() {
       return {
         // Framework7 Parameters
+
         f7params: {
           id: 'com.pushmobile.diaryvue', // App bundle ID
           name: 'Мой дневник', // App name
           theme: 'auto', // Automatic theme detection
-
           // App root data
           data: function () {
             const a = 'stringer';
@@ -75,6 +76,20 @@
         }
         // Call F7 APIs here
       });
-    }
+
+    },
+    computed: {
+      darkTheme: {
+        get: function(){
+          return this.darkTheme = this.$store.getters['getDarkTheme'];
+        },
+        set: function(newValue){
+          this.$store.commit('setDarkTheme', newValue);
+        }
+      }
+    },
+
   }
+
 </script>
+

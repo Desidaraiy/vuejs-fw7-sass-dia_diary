@@ -25,8 +25,10 @@ import store from '../store/index.js';
 Framework7.use(Framework7Vue);
 
 var dataObj = {};
-
 var notifObj = {};
+// var settingsObj = {};
+
+var darkTheme = 0;
 
 var db = null;
 // Init App
@@ -52,6 +54,8 @@ const openDbStart = () =>{
     db.executeSql('CREATE TABLE IF NOT EXISTS DiaryTable (id integer primary key, clong integer, dlong integer, dlast text, age integer, name text, email text, pincode text)');
 
     db.executeSql('CREATE TABLE IF NOT EXISTS DiaryNotify (id integer primary key, notifstart integer, notifend integer, notifovul integer, notifcontr integer)');
+
+    db.executeSql('CREATE TABLE IF NOT EXISTS DiarySettings (id integer primary key, darktheme integer)');
 
     db.executeSql('SELECT count(*) AS notifcount FROM DiaryNotify WHERE id = (?)', [1], function(result){
         for (var i = 0; i < result.rows.length; i++) {
@@ -84,6 +88,37 @@ const openDbStart = () =>{
             notifOvul: 0,
             notifContr: 0,
           }; 
+        }
+    });
+
+    db.executeSql('SELECT count(*) AS settcount FROM DiarySettings WHERE id = (?)', [1], function(result){
+        for (var i = 0; i < result.rows.length; i++) {
+            var row = result.rows.item(i);
+        }
+
+        if(row.settcount > 0){
+
+          db.executeSql('SELECT * FROM DiarySettings WHERE id = (?)', [1], function(result){
+            for (var i = 0; i < result.rows.length; i++) {
+                var row = result.rows.item(i);
+            }
+
+            // settingsObj = {
+            //   darktheme: row.darktheme,
+            // };
+
+            darkTheme = row.darktheme;
+            store.state.darkTheme = !!darkTheme;
+          });
+
+        }else{
+          db.executeSql('INSERT INTO DiarySettings (darktheme) VALUES (?)', [0], function(){
+            console.log('notifications table ok');
+          });
+
+            darkTheme = 0;
+            store.state.darkTheme = !!darkTheme;
+
         }
     });
 
@@ -134,6 +169,10 @@ const openDbStart = () =>{
       notifContr: 'false',
     }; 
 
+    darkTheme = 1;
+
+    store.state.darkTheme = !!darkTheme;
+
     init(dataObj, notifObj);
  
   } 
@@ -143,17 +182,20 @@ const openDbStart = () =>{
 const init = (dataObj, notifObj) => {
   new Vue({
     el: '#app',
+
     render: (h) => h(App),
     store,
     components: {
       app: App
     },
     data:{
-      db: db
+      db: db,
+      // darkTheme,
     },
     mounted(){
       this.$store.state.clientData = dataObj;
       this.$store.state.notifData = notifObj;
+      // this.$store.state.settingsData = settingsObj;
     }
   });
 

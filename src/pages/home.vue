@@ -199,7 +199,7 @@
         const $ = self.$$;
 
         let notify = app.notification.create({
-          title: '<span class="diafonted pink lower-notify">dia</span>',
+          title: 'КАЛЕНДАРЬ',
           subtitle: 'Привет, '+this.dataObject.name+'!',
           closeOnClick: true,
           closeTimeout: 3500,
@@ -249,13 +249,9 @@
         // выводим даты следующей овуляции и менструации
 
         let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)), 'days').format("D MMMM");
-
         this.nextOvulation = ovulationDay;
-
         let menstrDay = moment(redDaysStart).add(clong, 'days').format("D MMMM");
-
         this.nextMenst = menstrDay;
-
       }
     },
   };
