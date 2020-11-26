@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.pushmobile.diadiary" version="1.0.19" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.pushmobile.diadiary" version="1.0.20" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Календарь</name>
     <description>
         Dia - инновационный женский календарь без сложностей.
@@ -24,15 +24,12 @@
     </platform>
     <allow-navigation href="*" />
     <platform name="android">
-
-        <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/uses-permission" xmlns:android="http://schemas.android.com/apk/res/android">
-            <uses-permission android:name="android.permission.VIBRATE" />
-        </edit-config>
+        <preference name="AndroidPersistentFileLocation" value="Compatibility" />
         <preference name="NavigationBarBackgroundColor" value="#e68a97" />
         <preference name="StatusBarBackgroundColor" value="#e68a97" />
         <preference name="StatusBarStyle" value="lightcontent" />
         <preference name="StatusBarOverlaysWebView" value="true" />
-        <preference name="android-minSdkVersion" value="22" />
+        <preference name="android-minSdkVersion" value="23" />
         <preference name="SplashMaintainAspectRatio" value="true" />
         <splash density="land-hdpi" src="res/screen/android/drawable-hdpi/screen.png" />
         <splash density="land-mdpi" src="res/screen/android/drawable-mdpi/screen.png" />

@@ -95,7 +95,7 @@
         let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)), 'days').format("D MMMM");
 
         const now = new Date().getTime();
-        const _5_sec_from_now = new Date(now + 5*1000);
+        const _15_sec_from_now = new Date(now + 15*1000);
 
 
 
@@ -112,7 +112,7 @@
                 vibrate: true,
                 led: 'FF0000',
                 foreground: true,
-                at: _5_sec_from_now
+                at: _15_sec_from_now
               };
 
               cordova.plugins.notification.local.schedule(settings, function(){
