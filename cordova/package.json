@@ -17,6 +17,7 @@
     "cordova-custom-config": "^5.1.0",
     "cordova-plugin-badge": "^0.8.8",
     "cordova-plugin-device": "^2.0.3",
+    "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-keyboard": "^1.2.0",
     "cordova-plugin-local-notification": "git+https://github.com/katzer/cordova-plugin-local-notifications.git",
     "cordova-plugin-navigationbar-color": "^0.1.0",
@@ -36,11 +37,11 @@
       "cordova-plugin-navigationbar-color": {},
       "cordova-plugin-wkwebview-engine": {},
       "cordova-plugin-device": {},
-      "cordova-plugin-local-notification": {}
+      "cordova-plugin-local-notification": {},
+      "cordova-plugin-file": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "android"
     ]
   },
   "devDependencies": {

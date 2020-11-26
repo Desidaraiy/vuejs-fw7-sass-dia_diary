@@ -88,7 +88,7 @@
         <f7-list>
           <f7-row>
             <f7-col width="33"></f7-col>
-            <f7-col width="33"><f7-button col-50 fill round large @click="signIn">Начать</f7-button></f7-col>
+            <f7-col width="33"><f7-button fill round large @click="signIn">Начать</f7-button></f7-col>
             <f7-col width="33"></f7-col>
           </f7-row>
           

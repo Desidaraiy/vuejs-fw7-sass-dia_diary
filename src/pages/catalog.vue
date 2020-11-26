@@ -70,6 +70,10 @@
       },
       enableDisable: function(newN, string){
 
+        const self = this;
+        const app = self.$f7;
+        const $ = self.$$;
+
         const dataObj = this.$store.getters['getClientData'];
         const clong = parseInt(dataObj.clong);
         const dlong = parseInt(dataObj.dlong);
@@ -84,52 +88,41 @@
 
         let remaining = moment(redDaysStart, "YYYY-MM-DD").diff(moment(day, "YYYY-MM-DD"), 'days');
 
-        // console.log('1');
-
         if(Math.sign(parseInt(remaining)) == -1){
-          remaining = Math.abs(parseInt(remaining));
-          remaining = remaining * 2;
-          remaining = clong-remaining;
-          // remaining = parseInt(remaining)+clong;
-          // remaining = parseInt(remaining)-dlong;
+          app.dialog.alert(parseInt(remaining));
         }
-
-        console.log('3');
 
         let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)), 'days').format("D MMMM");
 
-        console.log('4');
+        const now = new Date().getTime();
+        const _5_sec_from_now = new Date(now + 5*1000);
 
-        // посчитаем дни до менструации
-        // посчитаем дни до конца менструации
-        // посчитаем дни до овуляции
+
 
         switch(string){
           case 'start':
             if(newN == true){
-              cordova.plugins.notification.local.schedule({
+
+              const settings = {
                 id: 1,
                 title: 'Привет!',
                 text: 'Сегодня начало менструации.',
                 icon: 'file://static/icons/256x256.png',
-                smallIcon: 'res://ic_launcher',
+                smallIcon: 'res://mipmap-xhdpi/ic_launcher.png',
+                vibrate: true,
+                led: 'FF0000',
                 foreground: true,
-                // every: 40520
-                // firstAt: fDay
-                trigger: { 
-                  in: 1, 
-                  unit: 'minute',
-                  // every: 381,
-                  // unit: 'hour'
-                }
+                at: _5_sec_from_now
+              };
+
+              cordova.plugins.notification.local.schedule(settings, function(){
+                app.dialog.alert('уведомление установлено');
               }, function(){
-                console.log('уведомление установлено', remaining, clong);
-              }, function(){
-                console.log('ошибка');
+                app.dialog.alert('ошибка');
               });
             }else{
               cordova.plugins.notification.local.cancel([1,2], function() {
-                console.log('уведомление снято');
+                app.dialog.alert('уведомление снято');
               });
             }
 
@@ -138,27 +131,27 @@
       },
     },
     watch: {
-      // notifStart: function(newN, oldN){
-      //   const self = this;
-      //   this.db.executeSql('UPDATE DiaryNotify SET notifstart = (?) WHERE notifstart = (?)', [Number(newN), Number(oldN)], function(){
-      //     // self.enableDisable(newN, 'start');
-      //   });
-      // },
-      // notifEnd: function(newN, oldN){
-      //   this.db.executeSql('UPDATE DiaryNotify SET notifend = (?) WHERE notifend = (?)', [Number(newN), Number(oldN)], function(){
-      //     // this.enableDisable(newN, 'end');
-      //   });
-      // },
-      // notifOvul: function(newN, oldN){
-      //   this.db.executeSql('UPDATE DiaryNotify SET notifovul = (?) WHERE notifovul = (?)', [Number(newN), Number(oldN)], function(){
-      //     // this.enableDisable(newN, 'ovul');
-      //   });
-      // },
-      // notifContr: function(newN, oldN){
-      //   this.db.executeSql('UPDATE DiaryNotify SET notifcontr = (?) WHERE notifcontr = (?)', [Number(newN), Number(oldN)], function(){
-      //     // this.enableDisable(newN, 'contr');
-      //   });
-      // },
+      notifStart: function(newN, oldN){
+        const self = this;
+        this.db.executeSql('UPDATE DiaryNotify SET notifstart = (?) WHERE notifstart = (?)', [Number(newN), Number(oldN)], function(){
+          self.enableDisable(newN, 'start');
+        });
+      },
+      notifEnd: function(newN, oldN){
+        this.db.executeSql('UPDATE DiaryNotify SET notifend = (?) WHERE notifend = (?)', [Number(newN), Number(oldN)], function(){
+          // this.enableDisable(newN, 'end');
+        });
+      },
+      notifOvul: function(newN, oldN){
+        this.db.executeSql('UPDATE DiaryNotify SET notifovul = (?) WHERE notifovul = (?)', [Number(newN), Number(oldN)], function(){
+          // this.enableDisable(newN, 'ovul');
+        });
+      },
+      notifContr: function(newN, oldN){
+        this.db.executeSql('UPDATE DiaryNotify SET notifcontr = (?) WHERE notifcontr = (?)', [Number(newN), Number(oldN)], function(){
+          // this.enableDisable(newN, 'contr');
+        });
+      },
     }
   };
 </script>

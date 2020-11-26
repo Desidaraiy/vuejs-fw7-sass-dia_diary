@@ -78,7 +78,10 @@ var cordovaApp = {
         e.preventDefault();
         return false;
       }else{
-        navigator.app.exitApp();
+        f7.dialog.confirm('Выйти из приложения?', function(){
+          navigator.app.exitApp();
+        });
+        
       }
 
       if ($('.panel.panel-in').length) {
