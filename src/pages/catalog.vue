@@ -34,39 +34,50 @@
     data: function () {
       const db = this.$root.db;
 
-      const notifObject = this.$store.getters['getNotifData'];
-
-
       return{
         db,
-        notifObject,
-        notifStart: false,
-        notifEnd: false,
-        notifOvul: false,
-        notifContr: false,
       }
     },
+    computed: {
+      notifStart: {
+        get: function(){
+          return this.notifStart = this.$store.getters['getNotifStart'];
+        },
+        set: function(newValue){
+          this.$store.commit('setNotifStart', newValue);
+        }
+      },
+      notifEnd: {
+        get: function(){
+          return this.notifEnd = this.$store.getters['getNotifEnd'];
+        },
+        set: function(newValue){
+          this.$store.commit('setNotifEnd', newValue);
+        }
+      },
+      notifOvul: {
+        get: function(){
+          return this.notifOvul = this.$store.getters['getNotifOvul'];
+        },
+        set: function(newValue){
+          this.$store.commit('setNotifOvul', newValue);
+        }
+      },
+      notifContr: {
+        get: function(){
+          return this.notifContr = this.$store.getters['getNotifContr'];
+        },
+        set: function(newValue){
+          this.$store.commit('setNotifContr', newValue);
+        }
+      },
+    },
     mounted: function(){
-      setTimeout(this.init, 500);
+      this.init();
     },
     methods: {
       init: function(){
-
-        this.notifObject = this.$store.getters['getNotifData'];
-
-        if(this.notifStart != !!this.notifObject.notifStart){
-          this.notifStart = !!this.notifObject.notifStart;
-        }
-        if(this.notifEnd != !!this.notifObject.notifEnd){
-          this.notifEnd = !!this.notifObject.notifEnd;
-        }
-        if(this.notifOvul != !!this.notifObject.notifOvul){
-          this.notifOvul = !!this.notifObject.notifOvul;
-        }
-        if(this.notifContr != !!this.notifObject.notifContr){
-          this.notifContr = !!this.notifObject.notifContr;
-        }
-
+        console.log('catalog.vue init');
       },
       enableDisable: function(newN, string){
 
@@ -89,15 +100,13 @@
         let remaining = moment(redDaysStart, "YYYY-MM-DD").diff(moment(day, "YYYY-MM-DD"), 'days');
 
         if(Math.sign(parseInt(remaining)) == -1){
-          app.dialog.alert(parseInt(remaining));
+          console.log(parseInt(remaining));
         }
 
         let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)), 'days').format("D MMMM");
 
         const now = new Date().getTime();
         const _15_sec_from_now = new Date(now + 15*1000);
-
-
 
         switch(string){
           case 'start':
@@ -116,13 +125,13 @@
               };
 
               cordova.plugins.notification.local.schedule(settings, function(){
-                app.dialog.alert('уведомление установлено');
+                console.log('уведомление установлено');
               }, function(){
-                app.dialog.alert('ошибка');
+                console.log('ошибка');
               });
             }else{
               cordova.plugins.notification.local.cancel([1,2], function() {
-                app.dialog.alert('уведомление снято');
+                console.log('уведомление снято');
               });
             }
 

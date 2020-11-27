@@ -25,10 +25,15 @@ import store from '../store/index.js';
 Framework7.use(Framework7Vue);
 
 var dataObj = {};
-var notifObj = {};
+
 // var settingsObj = {};
 
 var darkTheme = 0;
+
+var notifStart = 0;
+var notifEnd = 0;
+var notifOvul = 0;
+var notifContr = 0;
 
 var db = null;
 // Init App
@@ -68,27 +73,22 @@ const openDbStart = () =>{
             for (var i = 0; i < result.rows.length; i++) {
                 var row = result.rows.item(i);
             }
+            notifStart = row.notifstart;
+            notifEnd = row.notifend;
+            notifOvul = row.notifovul;
+            notifContr = row.notifcontr;
 
-            notifObj = {
-              notifStart: row.notifstart,
-              notifEnd: row.notifend,
-              notifOvul: row.notifovul,
-              notifContr: row.notifcontr,
-            };
           });
 
         }else{
           db.executeSql('INSERT INTO DiaryNotify (notifstart, notifend, notifovul, notifcontr) VALUES (?,?,?,?)', [0,0,0,0], function(){
             console.log('notifications table ok');
-          });
-
-          notifObj = {
-            notifStart: 0,
-            notifEnd: 0,
-            notifOvul: 0,
-            notifContr: 0,
-          }; 
+          });        
         }
+        store.state.notifStart = !!notifStart;
+        store.state.notifEnd = !!notifEnd;
+        store.state.notifOvul = !!notifOvul;
+        store.state.notifContr = !!notifContr;
     });
 
     db.executeSql('SELECT count(*) AS settcount FROM DiarySettings WHERE id = (?)', [1], function(result){
@@ -102,24 +102,17 @@ const openDbStart = () =>{
             for (var i = 0; i < result.rows.length; i++) {
                 var row = result.rows.item(i);
             }
-
-            // settingsObj = {
-            //   darktheme: row.darktheme,
-            // };
-
             darkTheme = row.darktheme;
-            store.state.darkTheme = !!darkTheme;
           });
 
         }else{
           db.executeSql('INSERT INTO DiarySettings (darktheme) VALUES (?)', [0], function(){
-            console.log('notifications table ok');
+            console.log('settings table ok');
           });
 
-            darkTheme = 0;
-            store.state.darkTheme = !!darkTheme;
-
+          darkTheme = 0;
         }
+        store.state.darkTheme = !!darkTheme;
     });
 
     db.executeSql('SELECT count(*) AS clientCount FROM DiaryTable WHERE id = (?)', [1], function(result){
@@ -141,11 +134,11 @@ const openDbStart = () =>{
               name: row.name,
             };
 
-            init(dataObj, notifObj);
+            init(dataObj);
           });   
         }else{
 
-          init(dataObj, notifObj);
+          init(dataObj);
 
         }
     });
@@ -162,24 +155,17 @@ const openDbStart = () =>{
       name: 'Вика'
     };
 
-    notifObj = {
-      notifStart: 'false',
-      notifEnd: 'false',
-      notifOvul: 'false',
-      notifContr: 'false',
-    }; 
-
     darkTheme = 1;
 
     store.state.darkTheme = !!darkTheme;
 
-    init(dataObj, notifObj);
+    init(dataObj);
  
   } 
 
 }
 
-const init = (dataObj, notifObj) => {
+const init = (dataObj) => {
   new Vue({
     el: '#app',
 
@@ -194,7 +180,6 @@ const init = (dataObj, notifObj) => {
     },
     mounted(){
       this.$store.state.clientData = dataObj;
-      this.$store.state.notifData = notifObj;
       // this.$store.state.settingsData = settingsObj;
     }
   });

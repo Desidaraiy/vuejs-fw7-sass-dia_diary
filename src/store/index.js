@@ -5,24 +5,36 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-  	
   	clientData: {
-    },
-    notifData: {
     },
     settingsData: {
 
     },
     darkTheme: false,
+    notifStart: false,
+    notifEnd: false,
+    notifOvul: false,
+    notifContr: false,
 
   },
   getters: {
   	getClientData: state => {
   		return state.clientData;
   	},
-    getNotifData: state => {
-      return state.notifData;
+    // notifications
+    getNotifStart: state => {
+      return state.notifStart;
     },
+    getNotifEnd: state => {
+      return state.NotifEnd;
+    },
+    getNotifOvul: state => {
+      return state.notifOvul;
+    },
+    getNotifContr: state => {
+      return state.notifContr;
+    },
+    // !notifications
     getSettingsData: state => {
       return state.settingsData;
     },
@@ -34,11 +46,21 @@ export default new Vuex.Store({
   mutations: {
   	setClientData: (state, payload) => {
   		state.clientData = payload;
-      // return state.clientData;
   	},
-    setNotifData: (state, payload) => {
-      state.notifData = payload;
+    // notifications
+    setNotifStart: (state, payload) => {
+      state.notifStart = payload;
     },
+    setNotifEnd: (state, payload) => {
+      state.notifEnd = payload;
+    },
+    setNotifOvul: (state, payload) => {
+      state.notifOvul = payload;
+    },
+    setNotifContr: (state, payload) => {
+      state.notifContr = payload;
+    },
+    // !notifications
     setSettingsData: (state, payload) => {
       state.settingsData = payload;
     },

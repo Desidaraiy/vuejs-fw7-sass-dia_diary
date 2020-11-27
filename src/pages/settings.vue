@@ -9,14 +9,13 @@
 
     <f7-list class="no-margin">
       <f7-list-item title="Темная тема"><f7-toggle :checked="darkTheme" @change="darkTheme = $event.target.checked"></f7-toggle></f7-list-item>
-      <f7-list-item title="Статистика цикла / Графики" link="#"></f7-list-item>
       <f7-list-item title="Режим беременности"><f7-toggle></f7-toggle></f7-list-item>
+      <f7-list-item title="Статистика цикла / Графики" link="#"></f7-list-item>
       <f7-list-item title="Полезная информация" link="#"></f7-list-item>
       <!-- <f7-list-item title="Настройки" link="#"></f7-list-item> -->
       <!-- <f7-list-item title="Оценить приложение" link="#"></f7-list-item> -->
       <!-- <f7-list-item title="Поделиться" link="#"></f7-list-item> -->
       <!-- <f7-list-item title="Связь с разработчиком" link="#"></f7-list-item> -->
-      
       <f7-list-item title="Выйти из аккаунта" link=""></f7-list-item>
     </f7-list>
 
