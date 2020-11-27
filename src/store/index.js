@@ -26,7 +26,7 @@ export default new Vuex.Store({
       return state.notifStart;
     },
     getNotifEnd: state => {
-      return state.NotifEnd;
+      return state.notifEnd;
     },
     getNotifOvul: state => {
       return state.notifOvul;

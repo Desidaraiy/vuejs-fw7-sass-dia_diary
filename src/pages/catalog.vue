@@ -1,6 +1,10 @@
 <template>
   <f7-page name="catalog">
-    <f7-navbar title="Уведомления (не работают)"></f7-navbar>
+    <f7-navbar title="Уведомления alpha">
+      <f7-nav-right>
+        <f7-link link="/notifications/"><f7-icon ios="f7:gear" md="material:settings"></f7-icon></f7-link>
+      </f7-nav-right>
+    </f7-navbar>
     <f7-block strong inset class="no-margin">
       <f7-block-title>Цикл</f7-block-title>
       <f7-list simple-list>
@@ -33,7 +37,6 @@
     name: 'catalog-view',
     data: function () {
       const db = this.$root.db;
-
       return{
         db,
       }
@@ -77,7 +80,10 @@
     },
     methods: {
       init: function(){
-        console.log('catalog.vue init');
+        // создать такую проверку, при которой станет известно, обновлять уведомления или нет.
+        // для этого нужно понять на какое число было поставлено последнее уведомление о начале менструации
+        // сравнить его с сегодняшним днем - если число отрицательное, значит уведомление уже пришло и отключилось, ставим на текущий цикл
+
       },
       enableDisable: function(newN, string){
 
@@ -94,25 +100,23 @@
         let fDay = moment().add(1, 'days').format("YYYY-MM-DD");
 
         let redDaysStart = moment(dlast).format("YYYY-MM-DD");
-
         let redDaysEnd = moment(redDaysStart).add(dlong-1, 'days').format("YYYY-MM-DD");
-
         let remaining = moment(redDaysStart, "YYYY-MM-DD").diff(moment(day, "YYYY-MM-DD"), 'days');
 
+        let remainingEnd = 0;
+
         if(Math.sign(parseInt(remaining)) == -1){
-          console.log(parseInt(remaining));
+          remaining = parseInt(remaining)+clong;
+          remainingEnd = moment(day).add(remaining, 'days').add(dlong, 'days').add(9, 'hours').toDate();
+          remaining = moment(day).add(remaining, 'days').add(9, 'hours').toDate();
         }
 
         let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)), 'days').format("D MMMM");
 
-        const now = new Date().getTime();
-        const _15_sec_from_now = new Date(now + 15*1000);
-
         switch(string){
           case 'start':
             if(newN == true){
-
-              const settings = {
+              let settings = {
                 id: 1,
                 title: 'Привет!',
                 text: 'Сегодня начало менструации.',
@@ -121,21 +125,50 @@
                 vibrate: true,
                 led: 'FF0000',
                 foreground: true,
-                at: _15_sec_from_now
+                at: remaining
               };
-
               cordova.plugins.notification.local.schedule(settings, function(){
-                console.log('уведомление установлено');
+                console.log('уведомление о начале установлено на ', remaining);
               }, function(){
                 console.log('ошибка');
               });
             }else{
-              cordova.plugins.notification.local.cancel([1,2], function() {
-                console.log('уведомление снято');
+              cordova.plugins.notification.local.cancel([1], function() {
+                console.log('уведомление о начале менструации снято');
               });
             }
-
           break;
+          case 'ender':
+            if(newN == true){
+              let settings = {
+                id: 2,
+                title: 'Привет!',
+                text: 'Менструация завершилась.',
+                icon: 'file://static/icons/256x256.png',
+                smallIcon: 'res://mipmap-xhdpi/ic_launcher.png',
+                vibrate: true,
+                led: 'FF0000',
+                foreground: true,
+                at: remainingEnd
+              };
+              cordova.plugins.notification.local.schedule(settings, function(){
+                console.log('уведомление о завершении установлено на ', remainingEnd);
+              }, function(){
+                console.log('ошибка');
+              });
+            }else{
+              cordova.plugins.notification.local.cancel([1], function() {
+                console.log('уведомление о завершении менструации снято');
+              });
+            }
+          break;
+          case 'ovul':
+            console.log('тихо');
+          break;
+          case 'contr':
+            console.log('тихоо');
+          break;
+
         }
       },
     },
@@ -147,18 +180,21 @@
         });
       },
       notifEnd: function(newN, oldN){
+        const self = this;
         this.db.executeSql('UPDATE DiaryNotify SET notifend = (?) WHERE notifend = (?)', [Number(newN), Number(oldN)], function(){
-          // this.enableDisable(newN, 'end');
+          self.enableDisable(newN, 'ender');
         });
       },
       notifOvul: function(newN, oldN){
+        const self = this;
         this.db.executeSql('UPDATE DiaryNotify SET notifovul = (?) WHERE notifovul = (?)', [Number(newN), Number(oldN)], function(){
-          // this.enableDisable(newN, 'ovul');
+          self.enableDisable(newN, 'ovul');
         });
       },
       notifContr: function(newN, oldN){
+        const self = this;
         this.db.executeSql('UPDATE DiaryNotify SET notifcontr = (?) WHERE notifcontr = (?)', [Number(newN), Number(oldN)], function(){
-          // this.enableDisable(newN, 'contr');
+          self.enableDisable(newN, 'contr');
         });
       },
     }

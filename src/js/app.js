@@ -77,6 +77,10 @@ const openDbStart = () =>{
             notifEnd = row.notifend;
             notifOvul = row.notifovul;
             notifContr = row.notifcontr;
+            store.state.notifStart = !!notifStart;
+            store.state.notifEnd = !!notifEnd;
+            store.state.notifOvul = !!notifOvul;
+            store.state.notifContr = !!notifContr;
 
           });
 
@@ -103,6 +107,7 @@ const openDbStart = () =>{
                 var row = result.rows.item(i);
             }
             darkTheme = row.darktheme;
+            store.state.darkTheme = !!darkTheme;
           });
 
         }else{
@@ -111,8 +116,9 @@ const openDbStart = () =>{
           });
 
           darkTheme = 0;
+          store.state.darkTheme = !!darkTheme;
         }
-        store.state.darkTheme = !!darkTheme;
+        
     });
 
     db.executeSql('SELECT count(*) AS clientCount FROM DiaryTable WHERE id = (?)', [1], function(result){
