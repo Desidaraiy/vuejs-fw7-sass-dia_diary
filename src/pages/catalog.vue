@@ -1,9 +1,9 @@
 <template>
   <f7-page name="catalog">
-    <f7-navbar title="Уведомления alpha">
-      <f7-nav-right>
+    <f7-navbar title="Уведомления">
+<!--       <f7-nav-right>
         <f7-link link="/notifications/"><f7-icon ios="f7:gear" md="material:settings"></f7-icon></f7-link>
-      </f7-nav-right>
+      </f7-nav-right> -->
     </f7-navbar>
     <f7-block strong inset class="no-margin">
       <f7-block-title>Цикл</f7-block-title>
@@ -28,6 +28,9 @@
           <f7-toggle :checked="notifContr" @change="notifContr = $event.target.checked"></f7-toggle>
         </f7-list-item>
       </f7-list>
+    </f7-block>
+    <f7-block strong inset>
+      <f7-button fill round large link="/notifica/">Настройки</f7-button>      
     </f7-block>
   </f7-page>
 </template>
@@ -95,23 +98,20 @@
         const clong = parseInt(dataObj.clong);
         const dlong = parseInt(dataObj.dlong);
         const dlast = dataObj.dlast;
+        let remainingEnd = 0;
 
         let day = moment().format("YYYY-MM-DD");
         let fDay = moment().add(1, 'days').format("YYYY-MM-DD");
-
         let redDaysStart = moment(dlast).format("YYYY-MM-DD");
         let redDaysEnd = moment(redDaysStart).add(dlong-1, 'days').format("YYYY-MM-DD");
         let remaining = moment(redDaysStart, "YYYY-MM-DD").diff(moment(day, "YYYY-MM-DD"), 'days');
-
-        let remainingEnd = 0;
-
         if(Math.sign(parseInt(remaining)) == -1){
           remaining = parseInt(remaining)+clong;
           remainingEnd = moment(day).add(remaining, 'days').add(dlong, 'days').add(9, 'hours').toDate();
           remaining = moment(day).add(remaining, 'days').add(9, 'hours').toDate();
         }
-
-        let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)), 'days').format("D MMMM");
+        let ovulationDay = moment(redDaysStart).add(Math.ceil((clong/2)), 'days');
+        ovulationDay = moment(ovulationDay).add(9, 'hours').toDate();
 
         switch(string){
           case 'start':
@@ -134,7 +134,7 @@
               });
             }else{
               cordova.plugins.notification.local.cancel([1], function() {
-                console.log('уведомление о начале менструации снято');
+                console.log('уведомление снято');
               });
             }
           break;
@@ -157,16 +157,58 @@
                 console.log('ошибка');
               });
             }else{
-              cordova.plugins.notification.local.cancel([1], function() {
-                console.log('уведомление о завершении менструации снято');
+              cordova.plugins.notification.local.cancel([2], function() {
+                console.log('уведомление снято');
               });
             }
           break;
           case 'ovul':
-            console.log('тихо');
+            if(newN == true){
+              let settings = {
+                id: 3,
+                title: 'Привет!',
+                text: 'Сегодня день овуляции.',
+                icon: 'file://static/icons/256x256.png',
+                smallIcon: 'res://mipmap-xhdpi/ic_launcher.png',
+                vibrate: true,
+                led: 'FF0000',
+                foreground: true,
+                at: ovulationDay
+              };
+              cordova.plugins.notification.local.schedule(settings, function(){
+                console.log('уведомление об овуляции установлено на ', ovulationDay);
+              }, function(){
+                console.log('ошибка');
+              });
+            }else{
+              cordova.plugins.notification.local.cancel([3], function() {
+                console.log('уведомление снято');
+              });
+            }
           break;
           case 'contr':
-            console.log('тихоо');
+            if(newN == true){
+              let settings = {
+                id: 4,
+                title: 'Привет!',
+                text: 'Пора выпить таблетку.',
+                icon: 'file://static/icons/256x256.png',
+                smallIcon: 'res://mipmap-xhdpi/ic_launcher.png',
+                vibrate: true,
+                led: 'FF0000',
+                foreground: true,
+                trigger: { every: { hour: 9, minute: 30 } }
+              };
+              cordova.plugins.notification.local.schedule(settings, function(){
+                console.log('уведомление о таблетках установлено на ', ovulationDay);
+              }, function(){
+                console.log('ошибка');
+              });
+            }else{
+              cordova.plugins.notification.local.cancel([4], function() {
+                console.log('уведомление снято');
+              });
+            }
           break;
 
         }

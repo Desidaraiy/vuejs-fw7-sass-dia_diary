@@ -6,7 +6,7 @@ import CatalogPage from '../pages/catalog.vue';
 import ProductPage from '../pages/product.vue';
 import SettingsPage from '../pages/settings.vue';
 import MyAccPage from '../pages/account.vue';
-import notificationsPage from '../pages/notifications.vue';
+import notificaPage from '../pages/notifica.vue';
 
 import DynamicRoutePage from '../pages/dynamic-route.vue';
 import RequestAndLoad from '../pages/request-and-load.vue';
@@ -42,8 +42,8 @@ var routes = [
     component: MyAccPage,
   },
   {
-    path: '/notifications/',
-    component: notificationsPage,
+    path: '/notifica/',
+    component: notificaPage,
   },
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',
