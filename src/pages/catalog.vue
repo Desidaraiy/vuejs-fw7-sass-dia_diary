@@ -1,9 +1,9 @@
 <template>
   <f7-page name="catalog">
     <f7-navbar title="Уведомления">
-<!--       <f7-nav-right>
-        <f7-link link="/notifications/"><f7-icon ios="f7:gear" md="material:settings"></f7-icon></f7-link>
-      </f7-nav-right> -->
+      <f7-nav-right link="/notifica/">
+        <f7-link link="/notifica/"><f7-icon ios="f7:gear" md="material:settings" link="/notifica/"></f7-icon></f7-link>
+      </f7-nav-right>
     </f7-navbar>
     <f7-block strong inset class="no-margin">
       <f7-block-title>Цикл</f7-block-title>
@@ -29,9 +29,9 @@
         </f7-list-item>
       </f7-list>
     </f7-block>
-    <f7-block strong inset>
+<!--     <f7-block strong inset>
       <f7-button fill round large link="/notifica/">Настройки</f7-button>      
-    </f7-block>
+    </f7-block> -->
   </f7-page>
 </template>
 <script>
