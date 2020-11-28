@@ -35,6 +35,7 @@ var notifEnd = 0;
 var notifOvul = 0;
 var notifContr = 0;
 
+
 var db = null;
 // Init App
 const openDbStart = () =>{
@@ -56,11 +57,28 @@ const openDbStart = () =>{
       }
     });
 
+    db.executeSql('CREATE TABLE IF NOT EXISTS DNStrings (id integer, title text, content text, time text)');
+
     db.executeSql('CREATE TABLE IF NOT EXISTS DiaryTable (id integer primary key, clong integer, dlong integer, dlast text, age integer, name text, email text, pincode text)');
 
     db.executeSql('CREATE TABLE IF NOT EXISTS DiaryNotify (id integer primary key, notifstart integer, notifend integer, notifovul integer, notifcontr integer)');
 
     db.executeSql('CREATE TABLE IF NOT EXISTS DiarySettings (id integer primary key, darktheme integer)');
+
+    db.executeSql('SELECT count(*) AS strcount FROM DNStrings WHERE id = (?)', [1], function(result){
+      for (var i = 0; i < result.rows.length; i++) {
+        var row = result.rows.item(i);
+      }
+      if(row.strcount == 0){
+        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [1, 'Привет!', 'Сегодня начало менструации.', '9']);
+        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [2, 'Привет!', 'Менструация завершилась.', '9']);
+        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [3, 'Привет!', 'Сегодня день овуляции.', '9']);
+        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [4, 'Привет!', 'Пора принять таблетки.', '9']);
+      }
+
+      // селектнуть все строки
+
+    });
 
     db.executeSql('SELECT count(*) AS notifcount FROM DiaryNotify WHERE id = (?)', [1], function(result){
         for (var i = 0; i < result.rows.length; i++) {

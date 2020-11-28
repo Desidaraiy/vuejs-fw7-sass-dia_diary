@@ -1,10 +1,6 @@
 <template>
   <f7-page name="catalog">
-    <f7-navbar title="Уведомления">
-      <f7-nav-right link="/notifica/">
-        <f7-link link="/notifica/"><f7-icon ios="f7:gear" md="material:settings" link="/notifica/"></f7-icon></f7-link>
-      </f7-nav-right>
-    </f7-navbar>
+    <f7-navbar title="Уведомления"></f7-navbar>
     <f7-block strong inset class="no-margin">
       <f7-block-title>Цикл</f7-block-title>
       <f7-list simple-list>
@@ -86,6 +82,14 @@
         // создать такую проверку, при которой станет известно, обновлять уведомления или нет.
         // для этого нужно понять на какое число было поставлено последнее уведомление о начале менструации
         // сравнить его с сегодняшним днем - если число отрицательное, значит уведомление уже пришло и отключилось, ставим на текущий цикл
+        cordova.plugins.notification.local.isScheduled(1, function (present) {
+          // if(!present){
+          //   this.updateOlds();
+          // }
+          console.log(present);
+        });
+      },
+      updateOlds: function(){
 
       },
       enableDisable: function(newN, string){
@@ -98,8 +102,8 @@
         const clong = parseInt(dataObj.clong);
         const dlong = parseInt(dataObj.dlong);
         const dlast = dataObj.dlast;
-        let remainingEnd = 0;
 
+        let remainingEnd = 0;
         let day = moment().format("YYYY-MM-DD");
         let fDay = moment().add(1, 'days').format("YYYY-MM-DD");
         let redDaysStart = moment(dlast).format("YYYY-MM-DD");

@@ -15,6 +15,18 @@ export default new Vuex.Store({
     notifEnd: false,
     notifOvul: false,
     notifContr: false,
+    nStringsStart: {
+
+    },
+    nStringsEnd: {
+
+    },
+    nStringsOvul: {
+
+    },
+    nStringsContr: {
+
+    },
 
   },
   getters: {
@@ -40,7 +52,20 @@ export default new Vuex.Store({
     },
     getDarkTheme: state => {
       return state.darkTheme;
-    }
+    },
+
+    getnStringsStart: state => {
+      return state.nStringsStart;
+    },
+    getnStringsEnd: state => {
+      return state.nStringsEnd;
+    },
+    getnStringsOvul: state => {
+      return state.nStringsOvul;
+    },
+    getnStringsContr: state => {
+      return state.nStringsContr;
+    },
 	// getsettings
   },
   mutations: {
@@ -66,6 +91,19 @@ export default new Vuex.Store({
     },
     setDarkTheme: (state, payload) => {
       state.darkTheme = payload;
-    }
+    },
+
+    setnStringsStart: (state, payload) => {
+      state.nStringsStart = payload;
+    },
+    setnStringsEnd: (state, payload) => {
+      state.nStringsEnd = payload;
+    },
+    setnStringsOvul: (state, payload) => {
+      state.nStringsOvul = payload;
+    },
+    setnStringsContr: (state, payload) => {
+      state.nStringsContr = payload;
+    },
   },
 })
