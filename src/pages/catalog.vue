@@ -79,7 +79,7 @@
     },
     methods: {
       init: function(){
-        cordova.plugins.notification.local.isTriggered(1, function (pres) {
+        cordova.plugins.notification.local.isTriggered(3, function (pres) {
           if(pres){
             this.updateOlds();
           }
