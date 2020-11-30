@@ -70,13 +70,11 @@ const openDbStart = () =>{
         var row = result.rows.item(i);
       }
       if(row.strcount == 0){
-        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [1, 'Привет!', 'Сегодня начало менструации.', '9']);
-        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [2, 'Привет!', 'Менструация завершилась.', '9']);
-        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [3, 'Привет!', 'Сегодня день овуляции.', '9']);
-        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [4, 'Привет!', 'Пора принять таблетки.', '9']);
+        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [1, 'Привет!', 'Сегодня начало менструации.', '09:00']);
+        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [2, 'Привет!', 'Менструация завершилась.', '09:00']);
+        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [3, 'Привет!', 'Сегодня день овуляции.', '09:00']);
+        db.executeSql('INSERT INTO DNStrings (id, title, content, time) VALUES (?,?,?,?)', [4, 'Привет!', 'Пора принять таблетки.', '09:30']);
       }
-
-      // селектнуть все строки
 
     });
 

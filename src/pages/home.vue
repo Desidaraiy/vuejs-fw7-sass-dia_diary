@@ -141,7 +141,7 @@
         const app = self.$f7;
         const $ = self.$$;
 
-        app.dialog.confirm('Вы будете перенаправлены на страницу регистрации.', function(){
+        app.dialog.confirm('Вы будете перенаправлены на страницу регистрации, все данные цикла будут стерты. Вы уверены?', function(){
           self.db.executeSql('DROP TABLE IF EXISTS DiaryTable');
           self.db.executeSql('CREATE TABLE IF NOT EXISTS DiaryTable (id integer primary key, clong integer, dlong integer, dlast text, age integer, name text, email text, pincode text)');
 
