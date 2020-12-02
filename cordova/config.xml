@@ -30,6 +30,7 @@
         <preference name="StatusBarStyle" value="lightcontent" />
         <preference name="StatusBarOverlaysWebView" value="true" />
         <preference name="android-minSdkVersion" value="23" />
+        <preference name="android-targetSdkVersion" value="29" />
         <preference name="SplashMaintainAspectRatio" value="true" />
         <splash density="land-hdpi" src="res/screen/android/drawable-hdpi/screen.png" />
         <splash density="land-mdpi" src="res/screen/android/drawable-mdpi/screen.png" />
